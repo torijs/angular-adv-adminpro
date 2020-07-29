@@ -1,36 +1,32 @@
+
+// Modulos
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { PagesRoutingModule } from './pages/pages.routing'; // EStas son las rutas que movimos para que se vea
+import { AuthRoutingModule } from './auth/auth.routing'; // Aqui un poco mas limpio y no todo sucio.
+
 // los siguiente son las importaciones de los componentes
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { ProgressComponent } from './pages/progress/progress.component';
-import { Grafica1Component } from './pages/grafica1/grafica1.component';
-import { NopagefoundComponent } from './pages/nopagefound/nopagefound.component';
-import { PagesComponent } from './pages/pages.component';
+import { NopagefoundComponent } from './nopagefound/nopagefound.component';
+
 
 const routes: Routes = [
-  {
-    path: '',
-    component: PagesComponent,
-    children: [
-      {path: 'dashboard', component: DashboardComponent},
-      {path: 'progress', component: ProgressComponent},
-      {path: 'grafica1', component: Grafica1Component},
-      {path: '', redirectTo: '/dashboard', pathMatch: 'full'}, // Para cuando sea una ruta vacia
-    ]
-  },
 
-  {path: 'register', component: RegisterComponent},
-  {path: 'login', component: LoginComponent},
+  // path: 'dashboard' PagesRouting
+  // path: '/auth' AuthRouting
 
+
+  {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
   {path: '**', component: NopagefoundComponent} // Cualquier otra ruta que no exista nos mandara aqui
 ];
 
 @NgModule({
   declarations: [],
-  imports: [RouterModule.forRoot(routes)], // Aqui en esta linea le decimos que son las rutas principales.
+  imports: [
+    RouterModule.forRoot(routes),  // Aqui en esta linea le decimos que son las rutas principales.
+    PagesRoutingModule, // ESta es la que separamos para que aqui quede mas limpio
+    AuthRoutingModule
+  ],
   exports: [RouterModule]
 })
 
