@@ -11,6 +11,8 @@ export class ProgressComponent {
 
   progreso2 = 35;
 
+
+  // esta es un getter para concatenatar el valor a asignar en el proceso y asi tener un codigo limpio
   get getProgreso1(){
     return `${this.progreso1}%`;
   }
