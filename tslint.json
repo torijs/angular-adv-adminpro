@@ -8,6 +8,7 @@
       ]
     },
     "array-type": false,
+    "prefer-const":false,
     "arrow-return-shorthand": true,
     "curly": true,
     "deprecation": {
@@ -56,7 +57,7 @@
       }
     ],
     "no-console": [
-      true,
+      false,
       "debug",
       "info",
       "time",

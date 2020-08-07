@@ -1,4 +1,4 @@
-   <!-- ============================================================== -->
+<!-- ============================================================== -->
         <!-- End Topbar header -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
@@ -35,8 +35,11 @@
 
                             <ul aria-expanded="false" class="collapse">
                                 <li *ngFor="let subMenuItem of item.submenu ">
-                                    <a [routerLink]="subMenuItem.url">{{subMenuItem.titulo}} </a>
+                                    <a [routerLink]="subMenuItem.url" routerLinkActive="active"
+                                    [routerLinkActiveOptions]="{exact: true}" >{{subMenuItem.titulo}} </a>
                                 </li>
+                                <!-- [routerLinkActiveOptions]="{exact: true}" Esta line es para que sea mas preciso 
+                                a la hora de marcar la pestaña o componente en la cual se encuentra el usuario -->
                             </ul>
                         </li>
                     </ul>
