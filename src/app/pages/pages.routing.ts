@@ -1,5 +1,11 @@
+// Modulos
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+
+// Guard para la verificaci+on de que este autenticado
+import {AuthGuard} from '../guards/auth.guard';
+
+// Componentes
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -13,6 +19,7 @@ const routes: Routes = [
     {
         path: 'dashboard',
         component: PagesComponent,
+        canActivate : [AuthGuard],
         children: [ // MAnda algunos argumentos por la ruta, se tiene una propiedad llamado data, la cual es un objeto donde podemos mandar
             { path: '', component: DashboardComponent, data: {titulo: 'Dashboard'} }, // lo que sea,
             { path: 'progress', component: ProgressComponent, data: {titulo: 'ProgressBar'} },

@@ -1,12 +1,7 @@
 {
   "extends": "tslint:recommended",
   "rules": {
-    "align": {
-      "options": [
-        "parameters",
-        "statements"
-      ]
-    },
+    "align": false,
     "array-type": false,
     "prefer-const":false,
     "arrow-return-shorthand": true,
@@ -74,18 +69,14 @@
     "no-switch-case-fall-through": true,
     "no-var-requires": false,
     "object-literal-key-quotes": [
-      true,
+      false,
       "as-needed"
     ],
     "quotemark": [
       true,
       "single"
     ],
-    "semicolon": {
-      "options": [
-        "always"
-      ]
-    },
+    "semicolon": false,
     "space-before-function-paren": {
       "options": {
         "anonymous": "never",
