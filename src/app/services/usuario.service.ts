@@ -15,6 +15,9 @@ import { Observable, of } from 'rxjs';
 // Router
 import {Router} from '@angular/router';
 
+// Modelos
+import {Usuario} from '../models/usuario.model';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -22,24 +25,36 @@ import {Router} from '@angular/router';
 export class UsuarioService {
 
     public auth2: any; // Google
+    public usuario: Usuario; /* Aqui se guarda los datos del usuario que se logea internamente, y se pueden acceder a ell
+    desde cualquier lado, solo llamando el servicio, y ya se podra acceder a los datos almacenados que se
+    guardaron cuando se logio el usuaio */
 
     constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {
         this.googleInit();
     }
 
+    get token(): string{
+        return localStorage.getItem('token') || '';
+    }
+    get uid(): string{
+        return this.usuario.uid || '';
+    }
+
     // Esta funcion le especificamos lo que tiene que regresar para poder ocuparlo en el guard.
     validaToken(): Observable <boolean>{ // Aqui utilizamos el servicio para verificar de que el token sea correcto, se manda por headers
-        const token = localStorage.getItem('token') || '';
 
         return this.http.get(`${base_url}/login/renew`, {
             headers: { // Aqui mandamos el token en el header y se especifica de la siguiente manera
-                'x-token': token
+                'x-token': this.token
             }
         }).pipe( // Aqui lo pasamo por el pipe para poder filtrarlo.
-            tap( (resp: any) => {
+            map( (resp: any) => {
+                /* aqui hay que instanciar el usuario para poder utilizar sus metodo que tiene adentro y no solo asignarlo*/
+                const {email, google, nombre, role, img = '', uid} = resp.usuario; // <-- Destructurando el usuario
+                this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
                 localStorage.setItem('token', resp.token);
+                return true
             }),
-            map( (resp) => true),
             catchError( (error) => of(false)) // Se tiene que manejar el error de afuerza
         );
     }
@@ -53,6 +68,18 @@ export class UsuarioService {
         );
     }
 
+    // La sigueinte linea es una forma se definir lo que se recibira de un dato, para evitar definir un interfacez
+    actulizarUsuario(data: {email: string, nombre: string, role: string}){
+        data = {
+            ...data,
+            role: this.usuario.role
+        }
+        return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {
+            headers: {
+                'x-token': this.token
+            }
+        });
+    }
 
 
     login(formData: LoginForm) {

@@ -5,7 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from '../app-routing.module';
 import {FormsModule} from '@angular/forms'; // Aqui lo importamo por el momento porque solo lo ocupamos aqui,
 import { ComponentsModule } from '../components/components.module'; // aui lo declaramos porque aqui vamos a ocuparlo
-
+import {ReactiveFormsModule} from '@angular/forms';
 
 // Compoenentes
 import { ProgressComponent } from './progress/progress.component';
@@ -15,6 +15,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -24,14 +25,16 @@ import { RxjsComponent } from './rxjs/rxjs.component';
     DashboardComponent,
     AccountSettingsComponent,
     PromesasComponent,
-    RxjsComponent
+    RxjsComponent,
+    PerfilComponent
   ],
   imports: [
     CommonModule,
     SharedModule, // Nuestro primer modulo personalisado que vamos a ocupar solo aqui.
     AppRoutingModule, // Este es para que funcione el router-outlet en el page.component.html
     FormsModule,
-    ComponentsModule
+    ComponentsModule,
+    ReactiveFormsModule
   ],
   exports: [
     ProgressComponent,

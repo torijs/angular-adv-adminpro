@@ -13,6 +13,7 @@ import { Grafica1Component } from './grafica1/grafica1.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 
 const routes: Routes = [
@@ -21,8 +22,9 @@ const routes: Routes = [
         component: PagesComponent,
         canActivate : [AuthGuard],
         children: [ // MAnda algunos argumentos por la ruta, se tiene una propiedad llamado data, la cual es un objeto donde podemos mandar
-            { path: '', component: DashboardComponent, data: {titulo: 'Dashboard'} }, // lo que sea,
-            { path: 'progress', component: ProgressComponent, data: {titulo: 'ProgressBar'} },
+            { path: '', component: DashboardComponent, data: {titulo: 'Dashboard'} }, // lo que sea, En este caso para saber en que ruta nos
+            { path: 'progress', component: ProgressComponent, data: {titulo: 'ProgressBar'} }, // encontramos
+            { path: 'perfil', component: PerfilComponent, data: {titulo: 'Perfil'} },
             { path: 'grafica1', component: Grafica1Component, data: {titulo: 'Grafica1'} },
             {path: 'account-settings', component: AccountSettingsComponent, data: {titulo: 'Ajuestes de Cuenta'}},
             {path: 'promesas', component: PromesasComponent, data: {titulo: 'Promesas'}},
