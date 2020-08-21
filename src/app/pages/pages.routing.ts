@@ -14,6 +14,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
 
 
 const routes: Routes = [
@@ -26,9 +27,11 @@ const routes: Routes = [
             { path: 'progress', component: ProgressComponent, data: {titulo: 'ProgressBar'} }, // encontramos
             { path: 'perfil', component: PerfilComponent, data: {titulo: 'Perfil'} },
             { path: 'grafica1', component: Grafica1Component, data: {titulo: 'Grafica1'} },
-            {path: 'account-settings', component: AccountSettingsComponent, data: {titulo: 'Ajuestes de Cuenta'}},
-            {path: 'promesas', component: PromesasComponent, data: {titulo: 'Promesas'}},
-            {path: 'rxjs', component: RxjsComponent, data: {titulo: 'RXJS'}}
+            { path: 'account-settings', component: AccountSettingsComponent, data: {titulo: 'Ajustes de Cuenta'}},
+            { path: 'promesas', component: PromesasComponent, data: {titulo: 'Promesas'}},
+            { path: 'rxjs', component: RxjsComponent, data: {titulo: 'RXJS'}},
+            // MAntenimientos
+            { path: 'usuarios', component: UsuariosComponent, data: {titulo: 'Usuarios de Aplicación'}}
         ]
     },
 ];

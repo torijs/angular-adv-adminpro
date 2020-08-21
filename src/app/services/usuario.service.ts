@@ -1,7 +1,7 @@
 import { Injectable, NgZone} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment'; // Este es nuestro archivo donde tenemos nuestro varibales globales
-import { tap, map, catchError } from 'rxjs/operators';
+
 
 // Ruta para el servidor local
 const base_url = environment.base_url;
@@ -10,13 +10,17 @@ declare const gapi: any;  // Google
 // interfaces
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
+import { CargarUsuarios } from '../interfaces/cargar-usaurios.interface';
+
+// RXJS
 import { Observable, of } from 'rxjs';
+import { tap, map, catchError, repeat } from 'rxjs/operators';
 
 // Router
 import {Router} from '@angular/router';
 
 // Modelos
-import {Usuario} from '../models/usuario.model';
+import { Usuario } from '../models/usuario.model';
 
 @Injectable({
     providedIn: 'root'
@@ -38,6 +42,14 @@ export class UsuarioService {
     }
     get uid(): string{
         return this.usuario.uid || '';
+    }
+
+    get headers(){
+        return {
+            headers: {
+                'x-token': this.token
+            }
+        }
     }
 
     // Esta funcion le especificamos lo que tiene que regresar para poder ocuparlo en el guard.
@@ -69,16 +81,13 @@ export class UsuarioService {
     }
 
     // La sigueinte linea es una forma se definir lo que se recibira de un dato, para evitar definir un interfacez
-    actulizarUsuario(data: {email: string, nombre: string, role: string}){
+    actulizarPerfil(data: {email: string, nombre: string, role: string}){
         data = {
             ...data,
             role: this.usuario.role
         }
-        return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {
-            headers: {
-                'x-token': this.token
-            }
-        });
+
+        return this.http.put(`${base_url}/usuarios/${this.uid}`, data, this.headers);
     }
 
 
@@ -123,6 +132,32 @@ export class UsuarioService {
 
     }
 
+
+    cargarUsuario(desde: number = 0){
+        const url = `${base_url}/usuarios?desde=${desde}`;
+        // <{}> <---- DEfinimos que es lo que va a regresar para que podemos usar la destructuración del otro lado.
+        return this.http.get<CargarUsuarios>(`${url}`, this.headers)
+        .pipe(
+            map( (resp) => {
+                console.log(resp);
+                const usuarios = resp.usuarios.map( user => new Usuario(user.nombre, user.email, '', user.img,
+                user.google, user.role, user.uid));
+                return { total: resp.total, usuarios };
+            })
+        )
+    }
+
+
+    eliminarUsuario(usuario: Usuario){
+        const url = `${base_url}/usuarios/${usuario.uid}`;
+
+        return this.http.delete(`${url}`, this.headers);
+    }
+
+    guardarUsuario(usuario: Usuario){
+
+        return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario, this.headers);
+    }
 
 }
 

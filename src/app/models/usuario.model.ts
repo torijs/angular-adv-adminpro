@@ -16,7 +16,14 @@ export class Usuario{
 
     get imagenURL(){
 
-        if (this.img){
+
+        // Aqui realizamos una serie de condiciones para poder evaluar en cualquiert tipo de condicion que venga la img
+
+        if (!this.img){
+            return `${base_url}/uploads/usuarios/no-image`;
+        }else if ((this.img.includes('https'))){
+            return this.img;
+        }else if (this.img){
             return `${base_url}/uploads/usuarios/${this.img}`;
         }else{
             return `${base_url}/uploads/usuarios/no-image`;
