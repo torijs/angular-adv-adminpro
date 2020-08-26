@@ -1,0 +1,91 @@
+<div class="row animate fadeIn fast">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <input type="text"
+                class="form-control"
+                placeholder="Buscar Hospital"
+                (keyup)="buscar(txtTermino.value)"
+                #txtTermino>
+
+                <!-- keydown <--Es para cuando se presiona la tecla 
+                y el keyup que es para cuando se suelta la tecla -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animate fadeIn fast" *ngIf="cargando">
+    <div class="col-12">
+
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading"> Cargando </h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere.</p>
+        </div>
+
+    </div>
+</div>
+
+<div class="row" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="card-title"> Hospitales ( {{hospitales.length}} )</h4>
+                        <h6 class="card-subtitle">Hospital registrados en la aplicación</h6>
+                    </div>
+                    <div class="col">
+                        <div class="text-right">
+                            <button class="btn btn-primary" (click)="abrirSweetAlert()">
+                                <i class="fa fa-hospital-o"></i>
+                                Crear Hospital
+                            </button>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="w100">Foto</th>
+                                <th>Nombre</th>
+                                <th class="w100 text-nowrap">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let hospital of hospitales">
+                                <!-- en un pipe siempre el primer argumento sera el la variable a la que le queremos aplicar el pipe -->
+                                <td class="text-center"> 
+                                    <img [src]="hospital.img | imagen: 'hospitales'" 
+                                    (click)="abrirModal(hospital)"
+                                    [alt]="hospital.nombre" class="avatar cursor"> 
+                                </td>
+                                <td> 
+                                    <!-- cuando el [ngModel] no tiene parentecis en de una sola via, osea que solo recibe el valor del lado del componente pero si el input se modifica
+                                    este No modidicara el valor de la variable del lado del componente. En cambio cuando tiene parentesis [(ngModel)] es un enlace de doble via y el
+                                    cambio del input es de ambos lados. -->
+                                    <input type="text" class="form-control" placeholder="Nombre del Hospital" [(ngModel)]="hospital.nombre">
+                                </td>
+                                <td class=" text-nowrap text-center">
+                                    <a (click)="guardarCambios(hospital)" class="cursor" data-toggle="tooltip" data-original-title="Guardar Cambios"> <i class="fa fa-edit text-inverse m-r-10"></i> </a>
+                                    <a (click)="eliminarHospital(hospital)" class="cursor" data-toggle="tooltip" data-original-title="Borrar"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- <button class="btn btn-secondary">Anterior</button>
+                    &nbsp; pequeña separación
+                    <button class="btn btn-secondary">Siguiente</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

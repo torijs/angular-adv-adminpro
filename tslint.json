@@ -105,6 +105,7 @@
       ]
     },
     "variable-name": false,
+    "class-name": false,
     "whitespace": {
       "options": [
         "check-branch",

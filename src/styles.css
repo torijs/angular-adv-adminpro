@@ -16,9 +16,12 @@
     width: 200px;
 }
 
-Esta clase de w100 para que sea globa
+/* Esta clase de w100 para que sea globa */
 .w100{
     width: 100px;
+}
+.w200{
+    width: 200px;
 }
 
 .avatar{
