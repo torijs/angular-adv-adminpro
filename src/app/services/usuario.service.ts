@@ -52,6 +52,19 @@ export class UsuarioService {
         }
     }
 
+    /* la siguisnte funcion de get role lo ocuparemos para poder obtener el rol del usuario que se haya logia, ya que
+    lo ocuparemos del lado del Guard para poder permitir o denegar rutas que solo puede acceder un administrador o un usuario
+    comun.  */
+    get role(): 'ADMIN_ROLE' | 'USER_ROLE' {
+        return this.usuario.role;
+    }
+
+    guardarLocalStorage(token: string, menu: any){ // Servicio para guardar datos en el localStorage
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('menu', JSON.stringify(menu))// Aqui guardamos el menu ya que vendra del lado del backend.
+    }
+
     // Esta funcion le especificamos lo que tiene que regresar para poder ocuparlo en el guard.
     validaToken(): Observable <boolean>{ // Aqui utilizamos el servicio para verificar de que el token sea correcto, se manda por headers
 
@@ -64,7 +77,7 @@ export class UsuarioService {
                 /* aqui hay que instanciar el usuario para poder utilizar sus metodo que tiene adentro y no solo asignarlo*/
                 const {email, google, nombre, role, img = '', uid} = resp.usuario; // <-- Destructurando el usuario
                 this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
-                localStorage.setItem('token', resp.token);
+                this.guardarLocalStorage(resp.token, resp.menu); // guardar datos en el localStorage
                 return true
             }),
             catchError( (error) => of(false)) // Se tiene que manejar el error de afuerza
@@ -75,7 +88,7 @@ export class UsuarioService {
 
         return this.http.post(`${base_url}/usuarios`, formData).pipe(
             tap( (resp: any) => {
-                localStorage.setItem('token', resp.token);
+                this.guardarLocalStorage(resp.token, resp.menu);
             })
         );
     }
@@ -94,7 +107,7 @@ export class UsuarioService {
     login(formData: LoginForm) {
         return this.http.post(`${base_url}/login`, formData).pipe(
             tap( (resp: any) => {
-                localStorage.setItem('token', resp.token);
+                this.guardarLocalStorage(resp.token, resp.menu);
             })
         );
 
@@ -103,13 +116,16 @@ export class UsuarioService {
     loginGoogle(token) {
         return this.http.post(`${base_url}/login/google`, {token}).pipe(
             tap( (resp: any) => {
-                localStorage.setItem('token', resp.token);
+                this.guardarLocalStorage(resp.token, resp.menu);
             })
         );
     }
 
     logout(){
         localStorage.removeItem('token');
+
+        // TODO: Borrar menu
+
         this.auth2.signOut().then( () => { // Una vez inicializado el servicio de google hacemos el logout
             this.ngZone.run( () => { // ngzone para que pueda ejecutar librerias externas a la de angular
                 this.router.navigateByUrl('/login'); // para que se pueda ejecutar esta linea de comando.

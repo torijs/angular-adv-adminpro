@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+
+// Servicios
 import { SettingsService } from '../services/settings.service';
+import { SidebarService } from '../services/sidebar.service';
 
 
 declare function customInitFunctions(); // Esta variable ya lo declaramos de forma gloval desde el archivo js.
@@ -13,11 +16,12 @@ declare function customInitFunctions(); // Esta variable ya lo declaramos de for
 export class PagesComponent implements OnInit {
 
 
-  constructor(private settingsService: SettingsService) {
+  constructor(private settingsService: SettingsService, private sidebarService: SidebarService) {
   }
 
   ngOnInit(): void {
-    customInitFunctions(); // La funcion se encuentra en en un archivo en la carpeta assets
+    customInitFunctions(); // La funcion se encuentra en en un archivo en la carpeta assets, JQUERY
+    this.sidebarService.cargarMenu(); // Primero se carga aqui antes que en otro lado Aqui llamamos el servicio para crear el menu
   }
 
 }

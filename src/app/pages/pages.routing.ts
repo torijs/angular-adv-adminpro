@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 // Guard para la verificaci+on de que este autenticado
 import {AuthGuard} from '../guards/auth.guard';
+import { AdminGuard } from '../guards/admin.guard';
 
 // Componentes
 import { PagesComponent } from './pages.component';
@@ -18,6 +19,7 @@ import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component'
 import { HospitalesComponent } from './mantenimientos/hospitales/hospitales.component';
 import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
 import { MedicoComponent } from './mantenimientos/medicos/medico.component';
+import { BusquedaComponent } from './busqueda/busqueda.component';
 
 
 const routes: Routes = [
@@ -33,11 +35,13 @@ const routes: Routes = [
             { path: 'account-settings', component: AccountSettingsComponent, data: {titulo: 'Ajustes de Cuenta'}},
             { path: 'promesas', component: PromesasComponent, data: {titulo: 'Promesas'}},
             { path: 'rxjs', component: RxjsComponent, data: {titulo: 'RXJS'}},
+            { path: 'buscar/:termino', component: BusquedaComponent, data: {titulo: 'Busqueda Global'}},
             // MAntenimientos
-            { path: 'usuarios', component: UsuariosComponent, data: {titulo: 'Usuarios de Aplicación'}},
             { path: 'hospitales', component: HospitalesComponent, data: {titulo: 'Hospitales de Aplicación'}},
             { path: 'medicos', component: MedicosComponent, data: {titulo: 'Medicos de Aplicación'}},
-            { path: 'medico/:id', component: MedicoComponent, data: {titulo: 'Actualizar Medico'}}
+            { path: 'medico/:id', component: MedicoComponent, data: {titulo: 'Actualizar Medico'}},
+            // Rutas de administrador. --> Aqui lo pasamos por otro canActive para poder verificar que sea un usario Administrador
+            { path: 'usuarios', canActivate: [AdminGuard], component: UsuariosComponent, data: {titulo: 'Usuarios de Aplicación'}}
         ]
     },
 ];

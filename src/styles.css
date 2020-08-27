@@ -23,6 +23,9 @@
 .w200{
     width: 200px;
 }
+.w50{
+    width: 50px;
+}
 
 .avatar{
     border:0.5px solid grey;

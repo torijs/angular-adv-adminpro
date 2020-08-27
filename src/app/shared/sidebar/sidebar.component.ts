@@ -15,15 +15,12 @@ import { Usuario } from '../../models/usuario.model';
 })
 export class SidebarComponent implements OnInit {
 
-  public menuItems: any[];
   // public imgURL = ''; // Otra forma de hacer para asignar la imagen es llamar directamente la funcion y asignar el valor
   public usuario: Usuario;
 
-  constructor(private sidebarComponent: SidebarService, private usurioService: UsuarioService) {
-    this.menuItems = sidebarComponent.menu;
+  constructor(public sidebarService: SidebarService, private usurioService: UsuarioService) {
     // this.imgURL = this.usurioService.usuario.imagenURL; // Se puede poner directo el valor, llamando la funcion
     this.usuario = this.usurioService.usuario;
-    console.log(this.menuItems);
   }
 
   ngOnInit(): void {
